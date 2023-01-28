@@ -1,0 +1,1 @@
+export const Cameras = new Mongo.Collection('Cameras');
