@@ -1,6 +1,7 @@
-# Condo Security
+# Night Watch
 
-This project currently proxies feeds from cameras to view in a password protected dashboard. What else should it do? You tell me!
+This project currently proxies feeds from cameras to view in a password protected dashboard. What else should it do? You
+tell me!
 
 - Only Wyze cameras are supported
 

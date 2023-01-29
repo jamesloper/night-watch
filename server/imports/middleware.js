@@ -1,11 +1,9 @@
-const cache = {};
+import { memoize } from 'underscore';
 
-export const getUserFromToken = (userToken => {
-	if (cache[userToken]) return cache[userToken];
+// This is used by the auth middleware so that plain HTTP requests can be tied to a logged in user
+export const getUserFromToken = memoize(userToken => {
 	const hashedToken = Accounts._hashLoginToken(userToken);
-	const user = Meteor.users.findOne({'services.resume.loginTokens.hashedToken': hashedToken});
-	if (user) cache[userToken] = user;
-	return user;
+	return Meteor.users.findOne({'services.resume.loginTokens.hashedToken': hashedToken});
 });
 
 export const authParser = Meteor.bindEnvironment((req, res, next) => {
