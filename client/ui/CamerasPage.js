@@ -7,7 +7,7 @@ const CamerasPage = () => {
 	const {ready, cameras} = useTracker(() => {
 		return {
 			'ready': Meteor.subscribe('Cameras').ready(),
-			'cameras': Cameras.find({}, {sort: {streamUrl: -1}}).fetch(),
+			'cameras': Cameras.find({}, {sort: {enabled: -1}}).fetch(),
 		};
 	}, []);
 

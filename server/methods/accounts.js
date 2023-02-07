@@ -28,3 +28,15 @@ Meteor.methods({
 		return password;
 	},
 });
+
+// For development purposes only, seeds the database with one user
+if (Meteor.isDevelopment) Meteor.startup(() => {
+	const count = Meteor.users.find().count();
+	if (count === 0) {
+		Accounts.createUser({
+			'email': 'demo@demo.com',
+			'discordName': 'demo',
+			'password': 'demo',
+		});
+	}
+});

@@ -4,9 +4,7 @@ import { Icon } from './index';
 
 const Camera = ({camera}) => {
 	const renderBody = () => {
-		if (camera.streamUrl) return (
-			<Stream url={`/api/${camera._id}/index.m3u8`} posterUrl={`/api/${camera._id}/poster.jpg`}/>
-		);
+		if (camera.enabled) return <Stream camera={camera}/>;
 		return (
 			<div className="camera-disabled">
 				<Icon icon="cloud_off"/>

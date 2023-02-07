@@ -16,7 +16,7 @@ app.use(authParser, (req, res, next) => {
 });
 
 const getCamera = memoize(id => {
-	return Cameras.findOne({'_id': id}, {fields: {streamUrl: 1}});
+	return Cameras.findOne({'_id': id}, {fields: {streamUrl: 1, posterUrl: 1}});
 });
 
 app.use('/:id/index.m3u8', async (req, res, next) => {
@@ -50,7 +50,22 @@ app.use('/:id/:segment.ts', async (req, res, next) => {
 	http.get(`${camera.streamUrl}${req.params.segment}.ts`, (stream) => {
 		if (stream.statusCode === 200) {
 			pipeline(stream, res, (err) => {
-				if (err) console.log('stream -> client pipeline error:', err);
+				if (err) console.log('ts -> client pipeline error:', err);
+			});
+		} else {
+			res.end();
+		}
+	});
+});
+
+app.get('/:id/poster.jpg', async (req, res, next) => {
+	const camera = getCamera(req.params.id);
+	if (!camera) return next(`Invalid camera ID`);
+
+	http.get(camera.posterUrl, (stream) => {
+		if (stream.statusCode === 200) {
+			pipeline(stream, res, (err) => {
+				if (err) console.log('poster -> client pipeline error:', err);
 			});
 		} else {
 			res.end();
